@@ -5,15 +5,22 @@ CXX = @(COMPILER)
 LD = $(CXX)
 AR = ar
 
+export EXTRA_CPP_FLAGS
+export EXTRA_LD_FLAGS
+
 CPP_FLAGS += -std=c++11
-CPP_FLAGS += -Wall -Wextra -Werror
+CPP_FLAGS += -Wall -Wextra
 CPP_FLAGS += @(OPTIMALIZATION_FLAG)
 CPP_FLAGS += -ftemplate-backtrace-limit=0
+CPP_FLAGS += $EXTRA_CPP_FLAGS
+
+LD_FLAGS += $EXTRA_LD_FLAGS
 
 SOURCE_DIR = $(TUP_CWD)/src
 INCLUDE_DIR = $(TUP_CWD)/include
 LIB_DIR = $(TUP_CWD)/lib
 
+LIBS += -lboost_regex
 LIBS += -lboost_system
 
 INCLUDE_DIRS += -I$(INCLUDE_DIR)

@@ -1,6 +1,8 @@
 
 include_rules
 
+export LD_LIBRARY_PATH
+
 LIBS += -lboost_unit_test_framework
 
 export LD_LIBRARY_PATH
