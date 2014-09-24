@@ -26,9 +26,9 @@ public:
 	void start();
 	void wait();
 
-	ThreadPool():
+	ThreadPool(std::size_t numThreads = 1):
 		running(false),
-		numThreads(0)
+		numThreads(1)
 	{
 	}
 };
