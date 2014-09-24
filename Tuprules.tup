@@ -1,0 +1,29 @@
+
+.gitignore
+
+CXX = @(COMPILER)
+LD = $(CXX)
+AR = ar
+
+CPP_FLAGS += -std=c++11
+CPP_FLAGS += -Wall -Wextra -Werror
+CPP_FLAGS += @(OPTIMALIZATION_FLAG)
+CPP_FLAGS += -ftemplate-backtrace-limit=0
+
+SOURCE_DIR = $(TUP_CWD)/src
+INCLUDE_DIR = $(TUP_CWD)/include
+LIB_DIR = $(TUP_CWD)/lib
+
+LIBS += -lboost_system
+
+INCLUDE_DIRS += -I$(INCLUDE_DIR)
+
+LIBS += @(PROFILER_LIBS)
+
+LIB_NAME = libcpp-util.a
+LIB_PATH = $(LIB_DIR)/$(LIB_NAME)
+
+!cxx = |> ^ CXX %f^ $(CXX) $(CPP_FLAGS) $(INCLUDE_DIRS) -c %f -o %o |> %B.o
+!ar = |> ^ AR %o^ $(AR) crs %o %f |>
+!linker = |> ^ LD %o^ $(LD) $(LD_FLAGS) %f $(LIBS) -o %o |>
+!unitTest = |> ^ UT %f^ ./%f && touch %o |> %b.output
