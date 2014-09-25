@@ -28,7 +28,7 @@ public:
 
 	ThreadPool(std::size_t numThreads = 1):
 		running(false),
-		numThreads(1)
+		numThreads(numThreads)
 	{
 	}
 };
