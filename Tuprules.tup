@@ -9,7 +9,7 @@ export EXTRA_CPP_FLAGS
 export EXTRA_LD_FLAGS
 
 CPP_FLAGS += -std=c++11
-CPP_FLAGS += -Wall -Wextra
+CPP_FLAGS += -Wall -Wextra -Werror
 CPP_FLAGS += @(OPTIMALIZATION_FLAG)
 CPP_FLAGS += -ftemplate-backtrace-limit=0
 CPP_FLAGS += $EXTRA_CPP_FLAGS
