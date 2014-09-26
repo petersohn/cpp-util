@@ -18,6 +18,8 @@ install:
     - if [ "$CXX" == "g++" ]; then export variant="release"; fi
     - sudo apt-get install --allow-unauthenticated -qq boost1.55
     - sudo apt-get install --allow-unauthenticated -qq tup
+    - sudo apt-get install --allow-unauthenticated -qq fuse
+    - sudo modprobe fuse
 
 script:
     - tup variant build/${variant}.tup
