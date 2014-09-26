@@ -6,15 +6,14 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/regex.hpp>
 
-namespace typemanip {
-
+namespace util {
 
 template <typename T>
 std::string removeNamespaceName() {
 
 	static const boost::regex regex{"\\w+(<[^>]*>)?(\\([^)]*\\))?::"};
 
-	std::string typeName(typemanip::type_name<T>());
+	std::string typeName(type_name<T>());
 	std::string result = boost::regex_replace(typeName, regex, "");
 
 	while (result[result.size() - 1] == '_') {
@@ -24,7 +23,7 @@ std::string removeNamespaceName() {
 	return result;
 }
 
-}
+} // namespace util
 
 
 #endif /* TYPEMANIP_REMOVENAMESPACENAME_HPP_ */

@@ -4,6 +4,8 @@
 #include <memory>
 #include <utility>
 
+namespace util {
+
 template <typename Function>
 class Finally {
 public:
@@ -38,5 +40,7 @@ Finally<Function> finally(const Function& function)
 {
 	return Finally<Function>(function);
 }
+
+} // namespace util
 
 #endif /* FINALLY_HPP_ */

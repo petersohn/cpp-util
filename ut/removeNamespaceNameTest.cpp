@@ -1,7 +1,7 @@
 #include <boost/test/unit_test.hpp>
 #include "removeNamespaceName.hpp"
 
-using namespace typemanip;
+using namespace util;
 
 BOOST_AUTO_TEST_SUITE( removeNamespaceNameTest )
 

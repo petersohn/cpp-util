@@ -2,7 +2,7 @@
 #include "LazyArgumentMap.hpp"
 #include "PrefixMap.hpp"
 
-using namespace car;
+using namespace util;
 
 BOOST_AUTO_TEST_SUITE(LazyArgumentMapTest)
 

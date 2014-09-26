@@ -1,6 +1,8 @@
 #include <boost/test/unit_test.hpp>
 #include "Finally.hpp"
 
+using namespace util;
+
 BOOST_AUTO_TEST_SUITE( finallyTest )
 
 struct FinallyTester {

@@ -7,6 +7,8 @@
 #include <boost/asio.hpp>
 #include <boost/noncopyable.hpp>
 
+namespace util {
+
 class ThreadPool: public boost::noncopyable {
 private:
 	typedef std::shared_ptr<std::thread> ThreadPtr;
@@ -46,5 +48,7 @@ public:
 		threadPool_.wait();
 	}
 };
+
+} // namespace util
 
 #endif /* THREADPOOL_H_ */

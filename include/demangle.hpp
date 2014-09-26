@@ -5,7 +5,7 @@
 #include <string>
 #include <memory>
 
-namespace typemanip {
+namespace util {
 
 inline std::string demangle(const char *s) {
 	std::shared_ptr<char> result0{abi::__cxa_demangle(s, 0, 0, NULL), free};

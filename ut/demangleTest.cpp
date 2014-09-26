@@ -1,7 +1,7 @@
 #include <boost/test/unit_test.hpp>
 #include "demangle.hpp"
 
-using namespace typemanip;
+using namespace util;
 
 namespace foo {
 namespace bar {
