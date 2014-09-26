@@ -1,0 +1,33 @@
+language: cpp
+
+compiler:
+    - clang
+    - gcc
+
+before_install:
+    - if [ "$CXX" == "clang++" ]; then sudo add-apt-repository -y ppa:h-rayflood/llvm; fi
+    - if [ "$CXX" == "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
+    - sudo add-apt-repository -y ppa:boost-latest/ppa
+    - sudo add-apt-repository -y ppa:anatol/tup
+    - sudo apt-get update -qq
+
+install:
+    - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.4; fi
+    - if [ "$CXX" == "clang++" ]; then export variant="clang_release"; fi
+    - if [ "$CXX" == "g++" ]; then sudo apt-get install -qq g++-4.8; fi
+    - if [ "$CXX" == "g++" ]; then export variant="release"; fi
+    - sudo apt-get install --allow-unauthenticated -qq boost1.55
+    - sudo apt-get install --allow-unauthenticated -qq tup
+
+script:
+    - cp build/${variant}.config tup.config
+    - tup generate build.sh
+    - ./build.sh
+    - ./ut/unitTest
+
+notifications:
+    email:
+        - peter.szabados@gmail.com
+    on_success: change
+    on_failure: always
+

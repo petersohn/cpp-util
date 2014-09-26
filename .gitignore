@@ -10,3 +10,4 @@
 .cproject
 tup.config
 build-*
+build.sh
