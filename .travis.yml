@@ -30,7 +30,7 @@ script:
 
 notifications:
     email:
-        - peter.szabados@gmail.com
+        - kangirigungi@gmail.com
     on_success: change
     on_failure: always
 
