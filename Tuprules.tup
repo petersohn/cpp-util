@@ -16,8 +16,8 @@ CPP_FLAGS += $EXTRA_CPP_FLAGS
 
 LD_FLAGS += $EXTRA_LD_FLAGS
 
-SOURCE_DIR = $(TUP_CWD)/src
-INCLUDE_DIR = $(TUP_CWD)/include
+SOURCE_DIR = $(TUP_CWD)/src/util
+INCLUDE_DIR = $(TUP_CWD)/include/util
 LIB_DIR = $(TUP_CWD)/lib
 
 LIBS += -lboost_regex
