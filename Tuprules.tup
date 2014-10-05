@@ -17,13 +17,13 @@ CPP_FLAGS += $EXTRA_CPP_FLAGS
 LD_FLAGS += $EXTRA_LD_FLAGS
 
 SOURCE_DIR = $(TUP_CWD)/src/util
-INCLUDE_DIR = $(TUP_CWD)/include/util
+INCLUDE_DIR = $(TUP_CWD)/include
 LIB_DIR = $(TUP_CWD)/lib
 
 LIBS += -lboost_regex
 LIBS += -lboost_system
 
-INCLUDE_DIRS += -I$(INCLUDE_DIR)
+INCLUDE_DIRS += -I$(INCLUDE_DIR) -I$(INCLUDE_DIR)/util
 
 LIBS += @(PROFILER_LIBS)
 
