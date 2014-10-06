@@ -1,12 +1,10 @@
 #ifndef SRC_LAZYTYPE_HPP
 #define SRC_LAZYTYPE_HPP
 
-#if BOOST_VERSION < 105600 && BOOST_CLANG == 1
 # ifdef BOOST_PP_VARIADICS
 #  undef BOOST_PP_VARIADICS
 # endif
 # define BOOST_PP_VARIADICS 1
-#endif
 
 #include <memory>
 #include <boost/preprocessor/cat.hpp>
