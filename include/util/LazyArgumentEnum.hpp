@@ -1,6 +1,7 @@
 #ifndef SRC_LAZYARGUMENTENUM_HPP
 #define SRC_LAZYARGUMENTENUM_HPP
 
+#include "util/config.hpp"
 #include "util/StringEnumValue.hpp"
 #include "util/LazyArgumentMap.hpp"
 #include "util/PrefixMap.hpp"

@@ -1,11 +1,7 @@
 #ifndef SRC_LAZYTYPE_HPP
 #define SRC_LAZYTYPE_HPP
 
-# ifdef BOOST_PP_VARIADICS
-#  undef BOOST_PP_VARIADICS
-# endif
-# define BOOST_PP_VARIADICS 1
-
+#include "util/config.hpp"
 #include <memory>
 #include <boost/preprocessor/cat.hpp>
 
