@@ -1,7 +1,7 @@
-#include <boost/test/unit_test.hpp>
 #include <sstream>
 #include "LazyArgumentEnum.hpp"
 #include "PrefixMap.hpp"
+#include <boost/test/unit_test.hpp>
 
 using namespace util;
 

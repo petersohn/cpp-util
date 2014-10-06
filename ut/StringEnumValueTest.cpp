@@ -1,6 +1,6 @@
-#include <boost/test/unit_test.hpp>
 #include <map>
 #include "StringEnumValue.hpp"
+#include <boost/test/unit_test.hpp>
 
 BOOST_AUTO_TEST_SUITE(StringEnumValueTest)
 
