@@ -1,5 +1,5 @@
-#include "LazyType.hpp"
 #include <boost/test/unit_test.hpp>
+#include "LazyType.hpp"
 
 BOOST_AUTO_TEST_SUITE(LazyTypeTest)
 

@@ -1,5 +1,5 @@
-#include "PrefixMap.hpp"
 #include <boost/test/unit_test.hpp>
+#include "PrefixMap.hpp"
 
 using namespace util;
 

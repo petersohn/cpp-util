@@ -1,7 +1,6 @@
 #ifndef SRC_LAZYTYPE_HPP
 #define SRC_LAZYTYPE_HPP
 
-#include "util/config.hpp"
 #include <memory>
 #include <boost/preprocessor/cat.hpp>
 
