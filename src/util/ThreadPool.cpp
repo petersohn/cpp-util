@@ -2,6 +2,7 @@
 #include <functional>
 #include <boost/exception/all.hpp>
 #include <iostream>
+#include <boost/thread/tss.hpp>
 
 namespace util {
 
@@ -34,14 +35,19 @@ void ThreadPool::setNumThreads(std::size_t value)
 
 }
 
+static boost::thread_specific_ptr<std::size_t> localThreadId;
+
 void ThreadPool::start()
 {
 	if (!running && numThreads > 0) {
 		work.reset(new boost::asio::io_service::work(ioService));
 		threads.reserve(numThreads);
 		while (threads.size() < numThreads) {
-			threads.push_back(std::make_shared<std::thread>([this]() {
+			std::size_t id = threads.size();
+			threads.push_back(std::make_shared<std::thread>([this, id]() {
+					localThreadId.reset(new std::size_t(id));
 					runInThread();
+					localThreadId.reset();
 				})
 			);
 		}
@@ -60,6 +66,11 @@ void ThreadPool::wait()
 		ioService.reset();
 		running = false;
 	}
+}
+
+const std::size_t* ThreadPool::getCurrentThreadId()
+{
+	return localThreadId.get();
 }
 
 } // namespace util

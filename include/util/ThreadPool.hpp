@@ -33,6 +33,8 @@ public:
 		numThreads(numThreads)
 	{
 	}
+
+	static const std::size_t* getCurrentThreadId();
 };
 
 class ThreadPoolRunner {
