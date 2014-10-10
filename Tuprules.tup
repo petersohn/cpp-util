@@ -22,6 +22,7 @@ LIB_DIR = $(TUP_CWD)/lib
 
 LIBS += -lboost_regex
 LIBS += -lboost_system
+LIBS += -lboost_thread
 
 INCLUDE_DIRS += -I$(INCLUDE_DIR) -I$(INCLUDE_DIR)/util
 
