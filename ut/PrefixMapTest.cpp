@@ -113,6 +113,24 @@ BOOST_AUTO_TEST_CASE(iterate_empty) {
 	BOOST_CHECK(it == prefixMapUnderTest.cend());
 }
 
+BOOST_AUTO_TEST_CASE(iterate_for)
+{
+	std::vector<std::pair<std::string, int>> v{
+		{"value1", 12}, {"value2", 42}, {"something", 333}, {"value3", 0},
+		{"soooo", 235}};
+	PrefixMap<int> prefixMapUnderTest(v.begin(), v.end());
+	std::sort(v.begin(), v.end());
+
+	auto it = v.cbegin();
+
+	for (const auto& value: prefixMapUnderTest) {
+		BOOST_CHECK_EQUAL(it->first, value.first);
+		BOOST_CHECK_EQUAL(it->second, value.second);
+		++it;
+	}
+	BOOST_CHECK(it == v.cend());
+}
+
 struct TestValue {
 	bool copied = false;
 	bool moved = false;
@@ -185,6 +203,7 @@ BOOST_AUTO_TEST_CASE(emplace_rvalue_should_move) {
 	BOOST_CHECK(storedValue.moved);
 	BOOST_CHECK_EQUAL(storedValue.value, value);
 }
+
 
 BOOST_AUTO_TEST_SUITE_END()
 

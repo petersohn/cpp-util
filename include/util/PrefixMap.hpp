@@ -57,6 +57,12 @@ public:
 		friend class BasicPrefixMap;
 	public:
 
+		using iterator_category = std::forward_iterator_tag;
+		using value_type = BasicPrefixMap::value_type;
+		using pointer = value_type*;
+		using reference = value_type&;
+		using difference_type = int;
+
 		const_iterator() = default;
 		const_iterator(const const_iterator&) = default;
 		const_iterator(const_iterator&&) = default;
@@ -138,6 +144,12 @@ public:
 		friend class BasicPrefixMap;
 
 	public:
+
+		using iterator_category = std::forward_iterator_tag;
+		using value_type = BasicPrefixMap::value_type;
+		using pointer = value_type*;
+		using reference = value_type&;
+		using difference_type = int;
 
 		iterator() = default;
 		iterator(const iterator&) = default;
