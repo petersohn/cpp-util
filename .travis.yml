@@ -27,7 +27,7 @@ script:
     - sed -i "s/CONFIG_COMPILER=.*/CONFIG_COMPILER=$CXX/" tup.config
     - tup generate build.sh
     - ./build.sh
-    - gdb -d src/util -d include/util ./ut/unitTest -x test.gdb
+    - gdb -d src/util -d include/util ./ut/unitTest -x test.gdb -batch
 
 notifications:
     email:
