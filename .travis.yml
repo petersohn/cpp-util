@@ -20,6 +20,7 @@ install:
     - if [ "$CXX" == "g++" ]; then export CXX=g++-4.8; fi
     - sudo apt-get install --allow-unauthenticated -qq boost1.55
     - sudo apt-get install --allow-unauthenticated -qq tup
+    - sudo apt-get install gdb
 
 script:
     - cp build/${variant}.config tup.config
