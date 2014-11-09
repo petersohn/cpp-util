@@ -23,9 +23,12 @@ install:
     - tar -xjf boost_1_57_0.tar.bz2
     - cd boost_1_57_0
     - ./bootstrap.sh
-    - ./b2 -j16
+    - ./b2 -j4
     - sudo ./b2 install
-    - cd -
+    - pwd
+    - cd ..
+    - pwd
+    - ls
 
 
 script:
