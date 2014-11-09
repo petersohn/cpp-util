@@ -28,9 +28,11 @@ install:
     - cd ..
     - pwd
     - ls
+    - export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 
 script:
+    - echo $LD_LIBRARY_PATH
     - cp build/${variant}.config tup.config
     - sed -i "s/CONFIG_COMPILER=.*/CONFIG_COMPILER=$CXX/" tup.config
     - tup generate build.sh
