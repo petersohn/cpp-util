@@ -17,8 +17,6 @@ install:
     - if [ "$CXX" == "clang++" ]; then export CXX=clang++-3.4; fi
     - if [ "$CXX" == "g++" ]; then export variant="release"; fi
     - if [ "$CXX" == "g++" ]; then export CXX=g++-4.8; fi
-    - mkdir boost
-    - cd boost
     - wget -O boost_1_57_0.tar.bz2 http://downloads.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.tar.bz2\?r\=http%3A%2F%2Fwww.boost.org%2Fusers%2Fhistory%2Fversion_1_57_0.html\&ts\=1415552138\&use_mirror\=freefr
     - tar -xjf boost_1_57_0.tar.bz2
     - cd boost_1_57_0
