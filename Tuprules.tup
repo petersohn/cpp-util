@@ -1,6 +1,8 @@
 
 .gitignore
 
+export HOME
+
 CXX = @(COMPILER)
 LD = $(CXX)
 AR = ar
