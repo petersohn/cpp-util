@@ -68,12 +68,10 @@ public:
 
                     while (nextSeparator != actionEnd) {
                         it = nextSeparator;
+                        ++it;
                         nextSeparator = std::find(it, actionEnd,
                                 argumentSeparator);
-
-                        if (nextSeparator != actionEnd) {
-                            arguments.emplace_back(it, nextSeparator);
-                        }
+                        arguments.emplace_back(it, nextSeparator);
                     }
 
                     it = actionEnd;
