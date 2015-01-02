@@ -106,6 +106,64 @@ BOOST_AUTO_TEST_CASE(iterate) {
 	BOOST_CHECK(it == prefixMapUnderTest.cend());
 }
 
+BOOST_AUTO_TEST_CASE(find_exact_value) {
+	std::vector<std::pair<std::string, int>> v{
+			{"something", 333}, {"value1", 12}, {"value2", 42}, {"xyz", 0}
+		};
+	PrefixMap<int> prefixMapUnderTest(v.begin(), v.end());
+
+	auto it = prefixMapUnderTest.find("value1");
+
+	BOOST_CHECK_EQUAL(it->first, "value1");
+	++it;
+	BOOST_CHECK_EQUAL(it->first, "value2");
+	++it;
+	BOOST_CHECK_EQUAL(it->first, "xyz");
+	++it;
+	BOOST_CHECK(it == prefixMapUnderTest.end());
+}
+
+BOOST_AUTO_TEST_CASE(find_prefix) {
+	std::vector<std::pair<std::string, int>> v{
+			{"something", 333}, {"value1", 12}, {"value2", 42}, {"xyz", 0}
+		};
+	PrefixMap<int> prefixMapUnderTest(v.begin(), v.end());
+
+	auto it = prefixMapUnderTest.find("va");
+
+	BOOST_CHECK_EQUAL(it->first, "value1");
+	++it;
+	BOOST_CHECK_EQUAL(it->first, "value2");
+	++it;
+	BOOST_CHECK_EQUAL(it->first, "xyz");
+	++it;
+	BOOST_CHECK(it == prefixMapUnderTest.end());
+}
+
+BOOST_AUTO_TEST_CASE(find_last_element) {
+	std::vector<std::pair<std::string, int>> v{
+			{"something", 333}, {"value1", 12}, {"value2", 42}, {"xyz", 0}
+		};
+	PrefixMap<int> prefixMapUnderTest(v.begin(), v.end());
+
+	auto it = prefixMapUnderTest.find("xyz");
+
+	BOOST_CHECK_EQUAL(it->first, "xyz");
+	++it;
+	BOOST_CHECK(it == prefixMapUnderTest.end());
+}
+
+BOOST_AUTO_TEST_CASE(find_not_found) {
+	std::vector<std::pair<std::string, int>> v{
+			{"something", 333}, {"value1", 12}, {"value2", 42}, {"xyz", 0}
+		};
+	PrefixMap<int> prefixMapUnderTest(v.begin(), v.end());
+
+	auto it = prefixMapUnderTest.find("u");
+
+	BOOST_CHECK(it == prefixMapUnderTest.end());
+}
+
 BOOST_AUTO_TEST_CASE(iterate_empty) {
 	PrefixMap<int> prefixMapUnderTest;
 

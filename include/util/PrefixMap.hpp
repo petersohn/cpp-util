@@ -119,6 +119,7 @@ public:
 		explicit const_iterator(Stack stack):
 			stack(std::move(stack))
 		{
+			findNextValue();
 		}
 
 		void increment() {
@@ -254,6 +255,15 @@ public:
 		return const_cast<Node&>(findNode(key)).value->second;
 	}
 
+	const_iterator find(const string& key) const {
+		typename const_iterator::Stack stack;
+		findBestNode(key, &stack);
+		return const_iterator{stack};
+	}
+	iterator find(const string& key) {
+		return iterator{const_cast<const BasicPrefixMap*>(this)->find(key)};
+	}
+
 	const_iterator cbegin() const {
 		return const_iterator{rootNode};
 	}
@@ -284,7 +294,8 @@ private:
 		NodePosition(const Node& node):node(&node) {}
 	};
 
-	NodePosition findBestNode(const string& key) const {
+	NodePosition findBestNode(const string& key,
+			typename const_iterator::Stack* stack = nullptr) const {
 		NodePosition result{rootNode};
 
 		for (const auto& character: key) {
@@ -292,6 +303,10 @@ private:
 			auto it = result.node->children.find(character);
 			if (it == result.node->children.end()) {
 				return result;
+			}
+
+			if (stack) {
+				stack->emplace_back(it, result.node->children.end());
 			}
 
 			result.node = &it->second;
