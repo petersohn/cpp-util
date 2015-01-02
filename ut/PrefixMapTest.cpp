@@ -204,6 +204,19 @@ BOOST_AUTO_TEST_CASE(emplace_rvalue_should_move) {
 	BOOST_CHECK_EQUAL(storedValue.value, value);
 }
 
+BOOST_AUTO_TEST_CASE(copy_whole_map) {
+	int value1 = 44;
+	int value2 = 436;
+	PrefixMap<int> prefixMapUnderTest;
+	prefixMapUnderTest.emplace("value1", value1);
+	PrefixMap<int> copiedPrefixMap = prefixMapUnderTest;
+	prefixMapUnderTest.emplace("value2", value2);
+	BOOST_CHECK_EQUAL(prefixMapUnderTest.at("value1"), value1);
+	BOOST_CHECK_EQUAL(prefixMapUnderTest.at("value2"), value2);
+	BOOST_CHECK_EQUAL(copiedPrefixMap.at("value1"), value1);
+	BOOST_CHECK_THROW(copiedPrefixMap.at("value2"), ValueNotFound);
+}
+
 
 BOOST_AUTO_TEST_SUITE_END()
 

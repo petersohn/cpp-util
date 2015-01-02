@@ -44,8 +44,17 @@ private:
 		MapType children;
 
 		Node() = default;
-		Node(const Node&) = default;
-		Node& operator=(const Node&) = default;
+		Node(const Node& other): children(other.children)
+		{
+			if (other.value) {
+				value.reset(new value_type(*other.value));
+			}
+		}
+		Node& operator=(const Node& other)
+		{
+			value.reset(other.value ?  new value_type(*other.value) : nullptr);
+			children = other.children;
+		}
 		Node(Node&&) = default;
 		Node& operator=(Node&&) = default;
 	};
