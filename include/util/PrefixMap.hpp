@@ -107,16 +107,16 @@ public:
 	private:
 
 		using StackIterator = typename Node::MapType::const_iterator;
+		using Stack = std::vector<std::pair<StackIterator, StackIterator>>;
 
-		std::vector<std::pair<StackIterator, StackIterator>> stack;
+		Stack stack;
 
 		explicit const_iterator(const Node& node) {
 			stack.push_back({node.children.begin(), node.children.end()});
 			findNextValue();
 		}
 
-		explicit const_iterator(
-				std::vector<std::pair<StackIterator, StackIterator>> stack):
+		explicit const_iterator(Stack stack):
 			stack(std::move(stack))
 		{
 		}
