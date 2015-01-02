@@ -5,7 +5,7 @@ using namespace util;
 
 BOOST_AUTO_TEST_SUITE(StringFormatterTest)
 
-BOOST_AUTO_TEST_CASE(parse_simple_action)
+BOOST_AUTO_TEST_CASE(format_simple_action)
 {
     std::string actionString = "some value";
     StringFormatter::Map actions{
@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE(parse_simple_action)
             actionString);
 }
 
-BOOST_AUTO_TEST_CASE(parse_simple_action_with_constant_parts)
+BOOST_AUTO_TEST_CASE(format_simple_action_with_constant_parts)
 {
     std::string actionString = "some value";
     std::string prefix = "prefix string";
@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE(parse_simple_action_with_constant_parts)
             prefix + actionString + suffix);
 }
 
-BOOST_AUTO_TEST_CASE(parse_more_actions)
+BOOST_AUTO_TEST_CASE(format_more_actions)
 {
     std::string actionString1 = "some value1";
     std::string actionString2 = "some value2";
@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE(parse_more_actions)
             actionString1 + middleString + actionString2);
 }
 
-BOOST_AUTO_TEST_CASE(parse_action_with_parameters)
+BOOST_AUTO_TEST_CASE(format_action_with_parameters)
 {
     std::string actionString = "some value";
     std::string argument1 = "arg1";
