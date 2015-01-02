@@ -69,6 +69,62 @@ BOOST_AUTO_TEST_CASE(format_action_with_parameters)
             actionString + " " + argument1 + " " + argument2);
 }
 
+BOOST_AUTO_TEST_CASE(more_actions_with_arguments)
+{
+    std::string actionString = "some value";
+    std::string argument1 = "arg1";
+    std::string argument2 = "arg2";
+    StringFormatter::Map actions{
+            {"first", [&](const std::vector<std::string>& args)
+                {
+                    std::string result = actionString;
+                    for (const auto& arg: args) {
+                        result += " " + arg;
+                    }
+                    return result;
+                }}
+        };
+
+    StringFormatter stringFormatterUnderTest{actions};
+    BOOST_CHECK_EQUAL(stringFormatterUnderTest.formatString(
+                "%first:" + argument1 + "%_%first:" + argument2 + "%"),
+            actionString + " " + argument1 + "_" + actionString + " " + argument2);
+}
+
+BOOST_AUTO_TEST_CASE(different_escape_char)
+{
+    std::string actionString = "some value";
+    StringFormatter::Map actions{
+            {"first", [&](const std::vector<std::string>&) { return actionString; }}
+        };
+
+    StringFormatter stringFormatterUnderTest{actions, '_'};
+    BOOST_CHECK_EQUAL(stringFormatterUnderTest.formatString("_first_"),
+            actionString);
+}
+
+BOOST_AUTO_TEST_CASE(different_argument_separator)
+{
+    std::string actionString = "some value";
+    std::string argument1 = "arg1";
+    std::string argument2 = "arg2";
+    StringFormatter::Map actions{
+            {"first", [&](const std::vector<std::string>& args)
+                {
+                    std::string result = actionString;
+                    for (const auto& arg: args) {
+                        result += " " + arg;
+                    }
+                    return result;
+                }}
+        };
+
+    StringFormatter stringFormatterUnderTest{actions, '%', '!'};
+    BOOST_CHECK_EQUAL(stringFormatterUnderTest.formatString(
+                "%first!" + argument1 + "!" + argument2 + "%"),
+            actionString + " " + argument1 + " " + argument2);
+}
+
 
 
 BOOST_AUTO_TEST_SUITE_END()
