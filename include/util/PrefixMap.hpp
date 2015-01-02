@@ -110,9 +110,15 @@ public:
 
 		std::vector<std::pair<StackIterator, StackIterator>> stack;
 
-		const_iterator(const Node& node) {
+		explicit const_iterator(const Node& node) {
 			stack.push_back({node.children.begin(), node.children.end()});
 			findNextValue();
+		}
+
+		explicit const_iterator(
+				std::vector<std::pair<StackIterator, StackIterator>> stack):
+			stack(std::move(stack))
+		{
 		}
 
 		void increment() {
@@ -191,11 +197,12 @@ public:
 			return old;
 		}
 
-		iterator(const Node& node):it{node} {
-		}
-
 	private:
 		const_iterator it;
+
+		explicit iterator(const_iterator it):
+			it(std::move(it))
+		{}
 	};
 
 	BasicPrefixMap() = default;
@@ -254,7 +261,7 @@ public:
 		return const_iterator{};
 	}
 	iterator begin() {
-		return iterator{rootNode};
+		return iterator{const_iterator{rootNode}};
 	}
 	iterator end() {
 		return iterator{};
