@@ -1,6 +1,7 @@
 #ifndef SRC_PREFIXMAP_HPP
 #define SRC_PREFIXMAP_HPP
 
+#include <boost/variant.hpp>
 #include <string>
 #include <map>
 #include <vector>
@@ -57,6 +58,19 @@ private:
 		}
 		Node(Node&&) = default;
 		Node& operator=(Node&&) = default;
+	};
+
+	struct NotFound {};
+	struct Ambiguous {};
+
+	using FindNodeResult = boost::variant<NotFound, Ambiguous, const Node&>;
+
+	struct AtVisitor {
+		using result_type = const Node&;
+
+		result_type operator()(NotFound) const { throw ValueNotFound{}; }
+		result_type operator()(Ambiguous) const { throw AmbiguousValue{}; }
+		result_type operator()(const Node& node) const { return node; }
 	};
 
 public:
@@ -249,16 +263,21 @@ public:
 	}
 
 	const Value& at(const string& key) const {
-		return findNode(key).value->second;
+		auto result = findNode(key);
+		return boost::apply_visitor(AtVisitor{}, result).value->second;
 	}
 	Value& at(const string& key) {
-		return const_cast<Node&>(findNode(key)).value->second;
+		return const_cast<Value&>(const_cast<const BasicPrefixMap*>(this)->at(key));
 	}
 
 	const_iterator find(const string& key) const {
 		typename const_iterator::Stack stack;
-		findBestNode(key, &stack);
-		return const_iterator{stack};
+		auto result = findNode(key, &stack);
+		if (boost::get<const Node&>(&result)) {
+			return const_iterator{stack};
+		} else {
+			return end();
+		}
 	}
 	iterator find(const string& key) {
 		return iterator{const_cast<const BasicPrefixMap*>(this)->find(key)};
@@ -335,11 +354,12 @@ private:
 		return *node;
 	}
 
-	const Node& findNode(const string& key) const {
-		auto nodePosition = findBestNode(key);
+	FindNodeResult findNode(const string& key,
+			typename const_iterator::Stack* stack = nullptr) const {
+		auto nodePosition = findBestNode(key, stack);
 
 		if (nodePosition.depth != key.size()) {
-			throw ValueNotFound{};
+			return NotFound{};
 		}
 
 		const Node* result = nullptr;
@@ -350,7 +370,7 @@ private:
 			if (node->value) {
 
 				if (result) {
-					throw AmbiguousValue{};
+					return Ambiguous{};
 				}
 				result = node;
 

@@ -125,18 +125,27 @@ BOOST_AUTO_TEST_CASE(find_exact_value) {
 
 BOOST_AUTO_TEST_CASE(find_prefix) {
 	std::vector<std::pair<std::string, int>> v{
+			{"something", 333}, {"vaaaaa", 12}, {"value", 42}, {"xyz", 0}
+		};
+	PrefixMap<int> prefixMapUnderTest(v.begin(), v.end());
+
+	auto it = prefixMapUnderTest.find("val");
+
+	BOOST_CHECK_EQUAL(it->first, "value");
+	++it;
+	BOOST_CHECK_EQUAL(it->first, "xyz");
+	++it;
+	BOOST_CHECK(it == prefixMapUnderTest.end());
+}
+
+BOOST_AUTO_TEST_CASE(find_ambiguous_prefix) {
+	std::vector<std::pair<std::string, int>> v{
 			{"something", 333}, {"value1", 12}, {"value2", 42}, {"xyz", 0}
 		};
 	PrefixMap<int> prefixMapUnderTest(v.begin(), v.end());
 
 	auto it = prefixMapUnderTest.find("va");
 
-	BOOST_CHECK_EQUAL(it->first, "value1");
-	++it;
-	BOOST_CHECK_EQUAL(it->first, "value2");
-	++it;
-	BOOST_CHECK_EQUAL(it->first, "xyz");
-	++it;
 	BOOST_CHECK(it == prefixMapUnderTest.end());
 }
 
