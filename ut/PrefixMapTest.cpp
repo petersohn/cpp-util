@@ -217,6 +217,15 @@ BOOST_AUTO_TEST_CASE(copy_whole_map) {
 	BOOST_CHECK_THROW(copiedPrefixMap.at("value2"), ValueNotFound);
 }
 
+BOOST_AUTO_TEST_CASE(move_whole_map) {
+	int value = -721;
+	PrefixMap<int> prefixMapUnderTest;
+	prefixMapUnderTest.emplace("value", value);
+	PrefixMap<int> movedPrefixMap = std::move(prefixMapUnderTest);
+	BOOST_CHECK_THROW(prefixMapUnderTest.at("value"), ValueNotFound);
+	BOOST_CHECK_EQUAL(movedPrefixMap.at("value"), value);
+}
+
 
 BOOST_AUTO_TEST_SUITE_END()
 
