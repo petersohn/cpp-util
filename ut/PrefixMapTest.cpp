@@ -1,12 +1,16 @@
 #include <boost/test/unit_test.hpp>
 #include "PrefixMapTree.hpp"
+#include "PrefixMapVector.hpp"
 #include <boost/mpl/list.hpp>
 
 using namespace util;
 
 BOOST_AUTO_TEST_SUITE(PrefixMapTest)
 
-using PrefixMapTypes = boost::mpl::list<BasicPrefixMapTree<char, int>>;
+using PrefixMapTypes = boost::mpl::list<
+		BasicPrefixMapTree<char, int>,
+		BasicPrefixMapVector<char, int>
+	>;
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(one_value, PrefixMap, PrefixMapTypes) {
 	int value = 10;
