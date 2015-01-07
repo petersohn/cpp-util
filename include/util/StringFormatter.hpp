@@ -22,20 +22,30 @@ public:
     using String = std::basic_string<Char>;
     using Action = std::function<String(const std::vector<String>&)>;
     using Map = BasicPrefixMap<Char, Action>;
+    using EscapeMap = std::map<Char, String>;
 
 private:
 
     Map actions;
-    Char escapeChar;
+    EscapeMap escapeMap;
+    Char argumentChar;
     Char argumentSeparator;
+    Char escapeChar;
 
 public:
 
-    BasicStringFormatter(Map actions, Char escapeChar = '%',
-            Char argumentSeparator = ':'):
+    BasicStringFormatter(Map actions,
+            Char argumentChar = '%',
+            Char argumentSeparator = ':',
+            Char escapeChar = '\\',
+            EscapeMap escapeMap = {
+                    {'a', "\a"}, {'b', "\b"}, {'f', "\f"}, {'n', "\n"},
+                    {'r', "\r"}, {'t', "\t"}, {'\\', "\\"}}):
         actions(std::move(actions)),
-        escapeChar(escapeChar),
-        argumentSeparator(argumentSeparator)
+        escapeMap(std::move(escapeMap)),
+        argumentChar(argumentChar),
+        argumentSeparator(argumentSeparator),
+        escapeChar(escapeChar)
     {}
 
     String formatString(const String& input)
@@ -46,15 +56,15 @@ public:
         Iterator end = std::end(input);
 
         while (it != end) {
-            if (*it == escapeChar) {
-                Iterator actionEnd = std::find(++it, end, escapeChar);
+            if (*it == argumentChar) {
+                Iterator actionEnd = std::find(++it, end, argumentChar);
 
                 if (actionEnd == end) {
                     throw StringFormatterException{"Unterminated action"};
                 }
 
                 if (it == actionEnd) {
-                    result += escapeChar;
+                    result += argumentChar;
                 } else {
                     Iterator nextSeparator = std::find(it, actionEnd,
                             argumentSeparator);
@@ -77,6 +87,17 @@ public:
                     it = actionEnd;
                     result += actionValue->second(arguments);
                 }
+            } else if (*it == escapeChar) {
+                if (++it == end) {
+                    throw StringFormatterException{"Unterminated escape sequence"};
+                }
+
+                auto escapeValue = escapeMap.find(*it);
+                if (escapeValue == escapeMap.end()) {
+                    throw StringFormatterException{"Invalid escape character"};
+                }
+
+                result += escapeValue->second;
             } else {
                 result += *it;
             }
