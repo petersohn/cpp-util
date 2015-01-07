@@ -207,6 +207,53 @@ BOOST_AUTO_TEST_CASE(different_escape_character)
             escapeCharacters.at('a'));
 }
 
+BOOST_AUTO_TEST_CASE(throw_if_action_not_found)
+{
+    std::string actionString = "some value";
+    StringFormatter::Map actions{
+            {"first", [&](const std::vector<std::string>&) { return actionString; }}
+        };
+
+    StringFormatter stringFormatterUnderTest{actions};
+    BOOST_CHECK_THROW(stringFormatterUnderTest.formatString("%invalid%"),
+            StringFormatterException);
+}
+
+BOOST_AUTO_TEST_CASE(throw_if_action_not_terminated)
+{
+    std::string actionString = "some value";
+    StringFormatter::Map actions{
+            {"first", [&](const std::vector<std::string>&) { return actionString; }}
+        };
+
+    StringFormatter stringFormatterUnderTest{actions};
+    BOOST_CHECK_THROW(stringFormatterUnderTest.formatString("%first"),
+            StringFormatterException);
+}
+
+BOOST_AUTO_TEST_CASE(throw_if_escape_sequence_is_invalid)
+{
+    StringFormatter::EscapeMap escapeCharacters{
+            {'a', "escape sequence"}};
+    StringFormatter::Map actions;
+    StringFormatter stringFormatterUnderTest{actions, '%', ':', '\\',
+            escapeCharacters};
+
+    BOOST_CHECK_THROW(stringFormatterUnderTest.formatString("\\x"),
+            StringFormatterException);
+}
+
+BOOST_AUTO_TEST_CASE(throw_if_escape_sequence_is_not_terminated)
+{
+    StringFormatter::EscapeMap escapeCharacters{
+            {'a', "escape sequence"}};
+    StringFormatter::Map actions;
+    StringFormatter stringFormatterUnderTest{actions, '%', ':', '\\',
+            escapeCharacters};
+
+    BOOST_CHECK_THROW(stringFormatterUnderTest.formatString("\\"),
+            StringFormatterException);
+}
 
 
 BOOST_AUTO_TEST_SUITE_END()
