@@ -216,7 +216,7 @@ BOOST_AUTO_TEST_CASE(throw_if_action_not_found)
 
     StringFormatter stringFormatterUnderTest{actions};
     BOOST_CHECK_THROW(stringFormatterUnderTest.formatString("%invalid%"),
-            StringFormatterException);
+            InvalidAction);
 }
 
 BOOST_AUTO_TEST_CASE(throw_if_action_not_terminated)
@@ -228,7 +228,7 @@ BOOST_AUTO_TEST_CASE(throw_if_action_not_terminated)
 
     StringFormatter stringFormatterUnderTest{actions};
     BOOST_CHECK_THROW(stringFormatterUnderTest.formatString("%first"),
-            StringFormatterException);
+            UnterminatedAction);
 }
 
 BOOST_AUTO_TEST_CASE(throw_if_escape_sequence_is_invalid)
@@ -240,7 +240,7 @@ BOOST_AUTO_TEST_CASE(throw_if_escape_sequence_is_invalid)
             escapeCharacters};
 
     BOOST_CHECK_THROW(stringFormatterUnderTest.formatString("\\x"),
-            StringFormatterException);
+            InvalidEscapeSequence);
 }
 
 BOOST_AUTO_TEST_CASE(throw_if_escape_sequence_is_not_terminated)
@@ -252,7 +252,7 @@ BOOST_AUTO_TEST_CASE(throw_if_escape_sequence_is_not_terminated)
             escapeCharacters};
 
     BOOST_CHECK_THROW(stringFormatterUnderTest.formatString("\\"),
-            StringFormatterException);
+            UnterminatedEscapeSequence);
 }
 
 

@@ -14,6 +14,30 @@ struct StringFormatterException: public std::logic_error {
     using std::logic_error::logic_error;
 };
 
+struct InvalidAction: public StringFormatterException {
+    InvalidAction(const std::string& name):
+        StringFormatterException{"Invalid action: " + name}
+    {}
+};
+
+struct InvalidEscapeSequence: public StringFormatterException {
+    InvalidEscapeSequence(const std::string& name):
+        StringFormatterException{"Invalid action: " + name}
+    {}
+};
+
+struct UnterminatedAction: public StringFormatterException {
+    UnterminatedAction():
+        StringFormatterException{"Unterminated action"}
+    {}
+};
+
+struct UnterminatedEscapeSequence: public StringFormatterException {
+    UnterminatedEscapeSequence():
+        StringFormatterException{"Unterminated escape sequence"}
+    {}
+};
+
 template <typename Char>
 class BasicStringFormatter {
 public:
@@ -60,7 +84,7 @@ public:
                 Iterator actionEnd = std::find(++it, end, argumentChar);
 
                 if (actionEnd == end) {
-                    throw StringFormatterException{"Unterminated action"};
+                    throw UnterminatedAction{};
                 }
 
                 if (it == actionEnd) {
@@ -68,10 +92,11 @@ public:
                 } else {
                     Iterator nextSeparator = std::find(it, actionEnd,
                             argumentSeparator);
-                    auto actionValue = actions.find(String(it, nextSeparator));
+                    String name(it, nextSeparator);
+                    auto actionValue = actions.find(name);
 
                     if (actionValue == actions.end()) {
-                        throw StringFormatterException{"Unknown action"};
+                        throw InvalidAction{name};
                     }
 
                     std::vector<String> arguments;
@@ -89,12 +114,12 @@ public:
                 }
             } else if (*it == escapeChar) {
                 if (++it == end) {
-                    throw StringFormatterException{"Unterminated escape sequence"};
+                    throw UnterminatedEscapeSequence{};
                 }
 
                 auto escapeValue = escapeMap.find(*it);
                 if (escapeValue == escapeMap.end()) {
-                    throw StringFormatterException{"Invalid escape character"};
+                    throw InvalidEscapeSequence{std::string{*it}};
                 }
 
                 result += escapeValue->second;
