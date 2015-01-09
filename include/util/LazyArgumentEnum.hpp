@@ -8,16 +8,11 @@
 #include <boost/preprocessor/seq/elem.hpp>
 #include <boost/preprocessor/seq/for_each.hpp>
 #include <boost/preprocessor/variadic/to_seq.hpp>
-#include <boost/preprocessor/stringize.hpp>
 #include <istream>
 #include <ostream>
 
-#define _LAZY_ARGUMENT_ENUM_ENUM_HELPER(r, Type, elem) \
-	elem,
 #define _LAZY_ARGUMENT_ENUM_PREFIX_MAP_HELPER(r, Type, elem) \
 	STRING_ENUM_VALUE(Type, elem),
-#define _LAZY_ARGUMENT_ENUM_OUTPUT_HELPER(r, Type, elem) \
-	case Type::elem: return os << BOOST_PP_STRINGIZE(elem);
 
 #define LAZY_ARGUMENT_ENUM(Type, name, values) \
 	STRINGED_ENUM(Type, values) \
