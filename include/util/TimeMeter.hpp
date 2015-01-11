@@ -6,6 +6,11 @@
 
 namespace util {
 
+struct TimerData {
+	boost::posix_time::time_duration processorTime;
+	boost::posix_time::time_duration realTime;
+};
+
 class TimeMeter {
 
 	std::clock_t beginProcessorTime;
@@ -33,6 +38,11 @@ public:
 	boost::posix_time::time_duration realTime() const
 	{
 		return boost::posix_time::microsec_clock::universal_time() - beginRealTime;
+	}
+
+	TimerData data() const
+	{
+		return {processorTime(), realTime()};
 	}
 
 };
