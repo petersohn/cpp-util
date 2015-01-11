@@ -7,6 +7,7 @@
 #include <functional>
 #include <algorithm>
 #include <stdexcept>
+#include <boost/lexical_cast.hpp>
 
 namespace util {
 
@@ -136,6 +137,33 @@ public:
 };
 
 using StringFormatter = BasicStringFormatter<char>;
+
+
+template <typename T, typename Char>
+class GenericFormat {
+public:
+    GenericFormat(T value): value(std::move(value)) {}
+
+    std::basic_string<Char> operator()(
+            const std::vector<std::basic_string<Char>>&)
+    {
+        return boost::lexical_cast<std::basic_string<Char>>(value);
+    }
+
+    GenericFormat(const GenericFormat&) = default;
+    GenericFormat& operator=(const GenericFormat&) = default;
+    GenericFormat(GenericFormat&&) = default;
+    GenericFormat& operator=(GenericFormat&&) = default;
+
+private:
+    T value;
+};
+
+template <typename T, typename Char = char>
+GenericFormat<T, Char> genericFormat(T value)
+{
+    return GenericFormat<T, Char>{value};
+}
 
 }
 

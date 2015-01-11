@@ -5,6 +5,8 @@ using namespace util;
 
 BOOST_AUTO_TEST_SUITE(StringFormatterTest)
 
+BOOST_AUTO_TEST_SUITE(StringFormatter_)
+
 BOOST_AUTO_TEST_CASE(format_simple_action)
 {
     std::string actionString = "some value";
@@ -255,6 +257,31 @@ BOOST_AUTO_TEST_CASE(throw_if_escape_sequence_is_not_terminated)
             UnterminatedEscapeSequence);
 }
 
+
+BOOST_AUTO_TEST_SUITE_END() // StringFormatter
+
+BOOST_AUTO_TEST_SUITE(GenericFormat_)
+
+BOOST_AUTO_TEST_CASE(format_int)
+{
+    BOOST_CHECK_EQUAL(genericFormat(0)({}), "0");
+    BOOST_CHECK_EQUAL(genericFormat(123)({}), "123");
+    BOOST_CHECK_EQUAL(genericFormat(-362)({}), "-362");
+}
+
+BOOST_AUTO_TEST_CASE(format_string)
+{
+    std::string value = "some string value";
+    BOOST_CHECK_EQUAL(genericFormat(value)({}), value);
+}
+
+BOOST_AUTO_TEST_CASE(parameters_are_ignored)
+{
+    BOOST_CHECK_EQUAL(genericFormat(56)({"1243", "string"}), "56");
+}
+
+
+BOOST_AUTO_TEST_SUITE_END() // GenericFormat
 
 BOOST_AUTO_TEST_SUITE_END()
 
