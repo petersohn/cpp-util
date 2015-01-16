@@ -2,6 +2,7 @@
 #define INCLUDE_UTIL_STRINGFORMATTER_HPP
 
 #include "PrefixMap.hpp"
+#include "LazyArgumentEnum.hpp"
 #include <string>
 #include <vector>
 #include <functional>
@@ -138,16 +139,65 @@ public:
 
 using StringFormatter = BasicStringFormatter<char>;
 
+LAZY_ARGUMENT_ENUM(TextAlignment, textAlignments, (left)(right)(center))
 
 template <typename T, typename Char>
 class GenericFormat {
 public:
-    GenericFormat(T value): value(std::move(value)) {}
+    using String = std::basic_string<Char>;
 
-    std::basic_string<Char> operator()(
-            const std::vector<std::basic_string<Char>>&)
+    GenericFormat(T value,
+            TextAlignment defaultTextAlignment = TextAlignment::right,
+            Char defaultPaddingChar = ' ',
+            std::size_t defaultMinimumLength = 0):
+        value(std::move(value)),
+        defaultTextAlignment(defaultTextAlignment),
+        defaultPaddingChar(defaultPaddingChar),
+        defaultMinimumLength(defaultMinimumLength)
+    {}
+
+    String operator()(const std::vector<String>& args)
     {
-        return boost::lexical_cast<std::basic_string<Char>>(value);
+        std::size_t minimumLength = args.size() > 0 ?
+            boost::lexical_cast<std::size_t>(args[0]) :
+            defaultMinimumLength;
+        Char paddingChar = args.size() > 1 ?
+            boost::lexical_cast<Char>(args[1]) :
+            defaultPaddingChar;
+        TextAlignment textAlignment = args.size() > 2 ?
+            textAlignments().at(args[2]) :
+            defaultTextAlignment;
+
+        auto result = boost::lexical_cast<String>(value);
+        if (result.size() >= minimumLength) {
+            return result;
+        }
+
+        std::size_t padBefore = 0;
+        std::size_t padAfter = 0;
+        switch(textAlignment) {
+        case TextAlignment::left:
+            padAfter = minimumLength - result.size();
+            break;
+        case TextAlignment::right:
+            padBefore = minimumLength - result.size();
+            break;
+        case TextAlignment::center:
+            std::size_t difference = minimumLength - result.size();
+            std::size_t halfDifference = difference / 2;
+            padBefore = halfDifference;
+            padAfter = halfDifference + difference % 2;
+            break;
+        }
+
+        String paddedResult;
+        paddedResult.reserve(minimumLength);
+
+        for (std::size_t i = 0; i < padBefore; ++i) paddedResult += paddingChar;
+        paddedResult += result;
+        for (std::size_t i = 0; i < padAfter; ++i) paddedResult += paddingChar;
+
+        return paddedResult;
     }
 
     GenericFormat(const GenericFormat&) = default;
@@ -157,12 +207,19 @@ public:
 
 private:
     T value;
+    TextAlignment defaultTextAlignment;
+    Char defaultPaddingChar;
+    std::size_t defaultMinimumLength;
 };
 
 template <typename T, typename Char = char>
-GenericFormat<T, Char> genericFormat(T value)
+GenericFormat<T, Char> genericFormat(T value,
+        TextAlignment defaultTextAlignment = TextAlignment::right,
+        Char defaultPaddingChar = ' ',
+        std::size_t defaultMinimumLength = 0)
 {
-    return GenericFormat<T, Char>{value};
+    return GenericFormat<T, Char>{value, defaultTextAlignment,
+            defaultPaddingChar, defaultMinimumLength};
 }
 
 }

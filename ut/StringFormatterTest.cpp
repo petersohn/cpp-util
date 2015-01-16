@@ -275,9 +275,40 @@ BOOST_AUTO_TEST_CASE(format_string)
     BOOST_CHECK_EQUAL(genericFormat(value)({}), value);
 }
 
-BOOST_AUTO_TEST_CASE(parameters_are_ignored)
+BOOST_AUTO_TEST_CASE(padding_left)
 {
-    BOOST_CHECK_EQUAL(genericFormat(56)({"1243", "string"}), "56");
+    BOOST_CHECK_EQUAL(genericFormat(42, TextAlignment::left, ' ', 6)({}),
+            "42    ");
+}
+
+BOOST_AUTO_TEST_CASE(padding_right)
+{
+    BOOST_CHECK_EQUAL(genericFormat(42, TextAlignment::right, ' ', 6)({}),
+            "    42");
+}
+
+BOOST_AUTO_TEST_CASE(padding_center_even)
+{
+    BOOST_CHECK_EQUAL(genericFormat(532, TextAlignment::center, ' ', 9)({}),
+            "   532   ");
+}
+
+BOOST_AUTO_TEST_CASE(padding_center_odd)
+{
+    BOOST_CHECK_EQUAL(genericFormat(532, TextAlignment::center, ' ', 8)({}),
+            "  532   ");
+}
+
+BOOST_AUTO_TEST_CASE(different_padding_character)
+{
+    BOOST_CHECK_EQUAL(genericFormat(42, TextAlignment::left, 'x', 6)({}),
+            "42xxxx");
+}
+
+BOOST_AUTO_TEST_CASE(set_padding_from_input)
+{
+    BOOST_CHECK_EQUAL(genericFormat(42)({"6", "x", "center"}),
+            "xx42xx");
 }
 
 
