@@ -42,12 +42,18 @@ public:
 		}
 
 		iterationState = IterationState::filling;
+		workQueue.resertv(workQueueSize);
 	}
 
 	void add(Function f)
 	{
 		if (iterationState != IterationState::filling) {
 			throw BatchWorkerException{"Iteration is not filling"};
+		}
+
+		workQueue.push_back(std::move(f));
+		if (workQueue.size() == workQueueSize) {
+			cleanWorkQueue();
 		}
 	}
 
@@ -98,6 +104,12 @@ private:
 
 	void cleanWorkQueue()
 	{
+		for (const auto& function: workQueue) {
+			ioService.post(function);
+		}
+		std::unique_lock<std::mutex> lock(mutex);
+		tasksAdded += workQueue.size();
+		workQueue.clear();
 	}
 };
 
