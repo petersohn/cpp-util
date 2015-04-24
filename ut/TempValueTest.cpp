@@ -7,16 +7,16 @@ BOOST_AUTO_TEST_SUITE(TempValueTest)
 
 BOOST_AUTO_TEST_CASE(change_value_and_change_back)
 {
-	const int originalValue = 12;
-	const int newValue = 65;
+    const int originalValue = 12;
+    const int newValue = 65;
 
-	int value = originalValue;
+    int value = originalValue;
 
-	{
-		TempValue<int> tmp{value, newValue};
-		BOOST_CHECK_EQUAL(value, newValue);
-	}
-	BOOST_CHECK_EQUAL(value, originalValue);
+    {
+        TempValue<int> tmp{value, newValue};
+        BOOST_CHECK_EQUAL(value, newValue);
+    }
+    BOOST_CHECK_EQUAL(value, originalValue);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -7,43 +7,43 @@
 namespace util {
 
 struct TimerData {
-	boost::posix_time::time_duration processorTime;
-	boost::posix_time::time_duration realTime;
+    boost::posix_time::time_duration processorTime;
+    boost::posix_time::time_duration realTime;
 };
 
 class TimeMeter {
 
-	std::clock_t beginProcessorTime;
-	boost::posix_time::ptime beginRealTime;
+    std::clock_t beginProcessorTime;
+    boost::posix_time::ptime beginRealTime;
 
 public:
 
-	TimeMeter():
-		beginProcessorTime(std::clock()),
-		beginRealTime(boost::posix_time::microsec_clock::universal_time())
-	{}
+    TimeMeter():
+        beginProcessorTime(std::clock()),
+        beginRealTime(boost::posix_time::microsec_clock::universal_time())
+    {}
 
-	void reset()
-	{
-		beginProcessorTime = std::clock();
-		beginRealTime = boost::posix_time::microsec_clock::universal_time();
-	}
+    void reset()
+    {
+        beginProcessorTime = std::clock();
+        beginRealTime = boost::posix_time::microsec_clock::universal_time();
+    }
 
-	boost::posix_time::time_duration processorTime() const
-	{
-		std::clock_t value = std::clock() - beginProcessorTime;
-		return boost::posix_time::millisec(value / (CLOCKS_PER_SEC / 1000));
-	}
+    boost::posix_time::time_duration processorTime() const
+    {
+        std::clock_t value = std::clock() - beginProcessorTime;
+        return boost::posix_time::millisec(value / (CLOCKS_PER_SEC / 1000));
+    }
 
-	boost::posix_time::time_duration realTime() const
-	{
-		return boost::posix_time::microsec_clock::universal_time() - beginRealTime;
-	}
+    boost::posix_time::time_duration realTime() const
+    {
+        return boost::posix_time::microsec_clock::universal_time() - beginRealTime;
+    }
 
-	TimerData data() const
-	{
-		return {processorTime(), realTime()};
-	}
+    TimerData data() const
+    {
+        return {processorTime(), realTime()};
+    }
 
 };
 

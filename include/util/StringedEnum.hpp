@@ -6,23 +6,23 @@
 #include <boost/preprocessor/stringize.hpp>
 
 #define _STRINGED_ENUM_ENUM_OUTPUT_HELPER(r, Type, elem) \
-	case Type::elem: return os << BOOST_PP_STRINGIZE(elem);
+    case Type::elem: return os << BOOST_PP_STRINGIZE(elem);
 #define _STRINGED_ENUM_HELPER(r, Type, elem) \
-	elem,
+    elem,
 
 #define STRINGED_ENUM(Type, values) \
-	enum class Type { \
-			BOOST_PP_SEQ_FOR_EACH( \
-				_STRINGED_ENUM_HELPER, \
-				Type, values) \
-	}; \
-	inline ::std::ostream& operator<<(::std::ostream& os, Type value) { \
-		switch (value) { \
-			BOOST_PP_SEQ_FOR_EACH( \
-				_STRINGED_ENUM_ENUM_OUTPUT_HELPER, \
-				Type, values) \
-		}; \
-		return os; \
-	}
+    enum class Type { \
+            BOOST_PP_SEQ_FOR_EACH( \
+                _STRINGED_ENUM_HELPER, \
+                Type, values) \
+    }; \
+    inline ::std::ostream& operator<<(::std::ostream& os, Type value) { \
+        switch (value) { \
+            BOOST_PP_SEQ_FOR_EACH( \
+                _STRINGED_ENUM_ENUM_OUTPUT_HELPER, \
+                Type, values) \
+        }; \
+        return os; \
+    }
 
 #endif /* INCLUDE_UTIL_STRINGEDENUM_HPP */

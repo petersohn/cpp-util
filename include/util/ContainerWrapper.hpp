@@ -10,39 +10,39 @@ namespace util {
 
 template <typename Container>
 struct ContainerWrapper {
-	const Container& value;
-	explicit ContainerWrapper(const Container& value): value(value) {}
+    const Container& value;
+    explicit ContainerWrapper(const Container& value): value(value) {}
 };
 
 template <typename Container>
 std::ostream& operator<<(std::ostream& os,
-		const ContainerWrapper<Container>& containerWrapper)
+        const ContainerWrapper<Container>& containerWrapper)
 {
-	os << "{";
-	os << boost::algorithm::join(containerWrapper.value |
-			boost::adaptors::transformed(boost::lexical_cast<std::string,
-				typename Container::value_type>), ", ");
-	return os << "}";
+    os << "{";
+    os << boost::algorithm::join(containerWrapper.value |
+            boost::adaptors::transformed(boost::lexical_cast<std::string,
+                typename Container::value_type>), ", ");
+    return os << "}";
 }
 
 template <typename Container>
 bool operator==(const ContainerWrapper<Container>& lhs,
-		const ContainerWrapper<Container>& rhs)
+        const ContainerWrapper<Container>& rhs)
 {
-	return lhs.value == rhs.value;
+    return lhs.value == rhs.value;
 }
 
 template <typename Container>
 bool operator!=(const ContainerWrapper<Container>& lhs,
-		const ContainerWrapper<Container>& rhs)
+        const ContainerWrapper<Container>& rhs)
 {
-	return lhs.value != rhs.value;
+    return lhs.value != rhs.value;
 }
 
 template <typename Container>
 ContainerWrapper<Container> wrap(const Container& container)
 {
-	return ContainerWrapper<Container>{container};
+    return ContainerWrapper<Container>{container};
 }
 
 }

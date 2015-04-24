@@ -11,16 +11,16 @@ namespace util {
 template <typename T>
 std::string removeNamespaceName() {
 
-	static const boost::regex regex{"\\w+(<[^>]*>)?(\\([^)]*\\))?::"};
+    static const boost::regex regex{"\\w+(<[^>]*>)?(\\([^)]*\\))?::"};
 
-	std::string typeName(type_name<T>());
-	std::string result = boost::regex_replace(typeName, regex, "");
+    std::string typeName(type_name<T>());
+    std::string result = boost::regex_replace(typeName, regex, "");
 
-	while (result[result.size() - 1] == '_') {
-		result.pop_back();
-	}
+    while (result[result.size() - 1] == '_') {
+        result.pop_back();
+    }
 
-	return result;
+    return result;
 }
 
 } // namespace util

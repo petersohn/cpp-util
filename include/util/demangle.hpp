@@ -8,17 +8,17 @@
 namespace util {
 
 inline std::string demangle(const char *s) {
-	std::shared_ptr<char> result0{abi::__cxa_demangle(s, 0, 0, NULL), free};
-	return std::string{result0.get()};
+    std::shared_ptr<char> result0{abi::__cxa_demangle(s, 0, 0, NULL), free};
+    return std::string{result0.get()};
 }
 
 template<typename T>
 inline std::string type_name() {
-	return demangle(typeid(T).name());
+    return demangle(typeid(T).name());
 }
 template<typename T>
 inline std::string type_name(const T&) {
-	return demangle(typeid(T).name());
+    return demangle(typeid(T).name());
 }
 
 } // namespace typemanip
