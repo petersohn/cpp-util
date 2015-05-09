@@ -3,7 +3,12 @@
 
 export HOME
 
-CXX = @(COMPILER)
+ifeq (@(COMPILER),)
+    CXX = g++
+else
+    CXX = @(COMPILER)
+endif
+
 LD = $(CXX)
 AR = ar
 
