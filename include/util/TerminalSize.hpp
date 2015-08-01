@@ -4,11 +4,11 @@
 namespace util {
 
 struct TerminalSize {
-    int width;
-    int height;
+    int width = 0;
+    int height = 0;
 };
 
-TerminalSize getTerminalSize();
+TerminalSize getTerminalSize(int fd);
 
 } // namespace util
 

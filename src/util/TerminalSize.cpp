@@ -1,20 +1,22 @@
 #include "util/TerminalSize.hpp"
 
 #include <sys/ioctl.h>
-#include <unistd.h>
 
 
 namespace util {
 
-TerminalSize getTerminalSize()
+TerminalSize getTerminalSize(int fd)
 {
     ::winsize size;
-    ::ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
+    int result = ::ioctl(fd, TIOCGWINSZ, &size);
 
-    TerminalSize result;
-    result.width = size.ws_col;
-    result.height = size.ws_row;
-    return result;
+    TerminalSize terminalSize;
+
+    if (result == 0) {
+        terminalSize.width = size.ws_col;
+        terminalSize.height = size.ws_row;
+    }
+    return terminalSize;
 }
 
 } // namespace util
