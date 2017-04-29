@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(removeNamespaceName_should_return_class_name_with_template_
 
     typedef TemplateClass<TemplateParameter> Type;
 
-    BOOST_TEST_MESSAGE("OOOOriginal type name = " << type_name<Type>());
+    BOOST_TEST_MESSAGE("Original type name = " << type_name<Type>());
     BOOST_CHECK_EQUAL(removeNamespaceName<Type>(),
             "TemplateClass<TemplateParameter>");
 }
