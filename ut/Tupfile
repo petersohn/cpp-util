@@ -3,7 +3,7 @@ include_rules
 
 export LD_LIBRARY_PATH
 
-LIBS += -lboost_unit_test_framework
+LIBS += -lboost_unit_test_framework -lboost_serialization
 
 export LD_LIBRARY_PATH
 
