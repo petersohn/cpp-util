@@ -1,6 +1,7 @@
 #include "matrix/HexMatrix.hpp"
 #include "matrix/SquareMatrix.hpp"
 
+#include <boost/mpl/list.hpp>
 #include <boost/test/unit_test.hpp>
 
 using namespace util::matrix;
@@ -28,6 +29,24 @@ BOOST_AUTO_TEST_CASE(OppositeDirection) {
             Direction::left);
     BOOST_CHECK_EQUAL(Neighbors::oppositeDirection(Direction::down),
             Direction::up);
+}
+
+BOOST_AUTO_TEST_CASE(Iterate) {
+    Neighbors::Range range;
+    auto iterator = range.begin();
+    BOOST_TEST(*iterator == Direction::left);
+    BOOST_CHECK(iterator != range.end());
+    ++iterator;
+    BOOST_TEST(*iterator == Direction::up);
+    BOOST_CHECK(iterator != range.end());
+    ++iterator;
+    BOOST_TEST(*iterator == Direction::right);
+    BOOST_CHECK(iterator != range.end());
+    ++iterator;
+    BOOST_TEST(*iterator == Direction::down);
+    BOOST_CHECK(iterator != range.end());
+    ++iterator;
+    BOOST_CHECK(iterator == range.end());
 }
 
 BOOST_AUTO_TEST_SUITE_END() // Square
@@ -71,6 +90,55 @@ BOOST_AUTO_TEST_CASE(OppositeDirection) {
             Direction::up);
 }
 
+BOOST_AUTO_TEST_CASE(Iterate) {
+    Neighbors::Range range;
+    auto iterator = range.begin();
+    BOOST_TEST(*iterator == Direction::leftDown);
+    BOOST_CHECK(iterator != range.end());
+    ++iterator;
+    BOOST_TEST(*iterator == Direction::leftUp);
+    BOOST_CHECK(iterator != range.end());
+    ++iterator;
+    BOOST_TEST(*iterator == Direction::up);
+    BOOST_CHECK(iterator != range.end());
+    ++iterator;
+    BOOST_TEST(*iterator == Direction::rightUp);
+    BOOST_CHECK(iterator != range.end());
+    ++iterator;
+    BOOST_TEST(*iterator == Direction::rightDown);
+    BOOST_CHECK(iterator != range.end());
+    ++iterator;
+    BOOST_TEST(*iterator == Direction::down);
+    BOOST_CHECK(iterator != range.end());
+    ++iterator;
+    BOOST_CHECK(iterator == range.end());
+}
+
 BOOST_AUTO_TEST_SUITE_END() // Hex
+
+using NeighborTypes = boost::mpl::list<square::Neighbors, hex::Neighbors>;
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(IteratorOperations, Neighbors, NeighborTypes) {
+    typename Neighbors::Range range;
+    auto it1 = range.begin();
+    auto it2 = range.begin();
+    auto it3 = it1;
+    BOOST_CHECK(it1 == it2);
+    BOOST_CHECK(it1 == it3);
+    BOOST_CHECK(it2 == it3);
+
+    ++it1;
+    ++it2;
+    BOOST_CHECK(it1 == it2);
+    BOOST_CHECK(it1 != it3);
+    BOOST_CHECK(it2 != it3);
+    BOOST_CHECK_EQUAL(it3 - it1, -1);
+
+    ++it1;
+    BOOST_CHECK_EQUAL(it1 - it3, 2);
+
+    it1 -= 2;
+    BOOST_CHECK(it1 == it3);
+}
 
 BOOST_AUTO_TEST_SUITE_END() // NeighborsTest

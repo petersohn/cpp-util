@@ -1,6 +1,7 @@
 #ifndef UTIL_MATRIX_SQUAREMATRIX_HPP
 #define UTIL_MATRIX_SQUAREMATRIX_HPP
 
+#include "Neighbors.hpp"
 #include "Point.hpp"
 
 namespace util {
