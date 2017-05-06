@@ -1,0 +1,76 @@
+#include "matrix/HexMatrix.hpp"
+#include "matrix/SquareMatrix.hpp"
+
+#include <boost/test/unit_test.hpp>
+
+using namespace util::matrix;
+
+BOOST_AUTO_TEST_SUITE(NeighborsTest)
+
+BOOST_AUTO_TEST_SUITE(Square)
+
+using namespace square;
+
+BOOST_AUTO_TEST_CASE(Directions) {
+    Point p{3, 4};
+    BOOST_CHECK_EQUAL(p + neighbors[Direction::left], (Point{2, 4}));
+    BOOST_CHECK_EQUAL(p + neighbors[Direction::up], (Point{3, 3}));
+    BOOST_CHECK_EQUAL(p + neighbors[Direction::right], (Point{4, 4}));
+    BOOST_CHECK_EQUAL(p + neighbors[Direction::down], (Point{3, 5}));
+}
+
+BOOST_AUTO_TEST_CASE(OppositeDirection) {
+    BOOST_CHECK_EQUAL(Neighbors::oppositeDirection(Direction::left),
+            Direction::right);
+    BOOST_CHECK_EQUAL(Neighbors::oppositeDirection(Direction::up),
+            Direction::down);
+    BOOST_CHECK_EQUAL(Neighbors::oppositeDirection(Direction::right),
+            Direction::left);
+    BOOST_CHECK_EQUAL(Neighbors::oppositeDirection(Direction::down),
+            Direction::up);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // Square
+
+BOOST_AUTO_TEST_SUITE(Hex)
+
+using namespace hex;
+
+BOOST_AUTO_TEST_CASE(OddColumn) {
+    Point p{3, 4};
+    BOOST_CHECK_EQUAL(p + getNeighbors(p)[Direction::leftDown], (Point{2, 5}));
+    BOOST_CHECK_EQUAL(p + getNeighbors(p)[Direction::leftUp], (Point{2, 4}));
+    BOOST_CHECK_EQUAL(p + getNeighbors(p)[Direction::up], (Point{3, 3}));
+    BOOST_CHECK_EQUAL(p + getNeighbors(p)[Direction::rightUp], (Point{4, 4}));
+    BOOST_CHECK_EQUAL(p + getNeighbors(p)[Direction::rightDown], (Point{4, 5}));
+    BOOST_CHECK_EQUAL(p + getNeighbors(p)[Direction::down], (Point{3, 5}));
+}
+
+BOOST_AUTO_TEST_CASE(EvenColumn) {
+    Point p{8, 4};
+    BOOST_CHECK_EQUAL(p + getNeighbors(p)[Direction::leftDown], (Point{7, 4}));
+    BOOST_CHECK_EQUAL(p + getNeighbors(p)[Direction::leftUp], (Point{7, 3}));
+    BOOST_CHECK_EQUAL(p + getNeighbors(p)[Direction::up], (Point{8, 3}));
+    BOOST_CHECK_EQUAL(p + getNeighbors(p)[Direction::rightUp], (Point{9, 3}));
+    BOOST_CHECK_EQUAL(p + getNeighbors(p)[Direction::rightDown], (Point{9, 4}));
+    BOOST_CHECK_EQUAL(p + getNeighbors(p)[Direction::down], (Point{8, 5}));
+}
+
+BOOST_AUTO_TEST_CASE(OppositeDirection) {
+    BOOST_CHECK_EQUAL(Neighbors::oppositeDirection(Direction::leftDown),
+            Direction::rightUp);
+    BOOST_CHECK_EQUAL(Neighbors::oppositeDirection(Direction::leftUp),
+            Direction::rightDown);
+    BOOST_CHECK_EQUAL(Neighbors::oppositeDirection(Direction::up),
+            Direction::down);
+    BOOST_CHECK_EQUAL(Neighbors::oppositeDirection(Direction::rightUp),
+            Direction::leftDown);
+    BOOST_CHECK_EQUAL(Neighbors::oppositeDirection(Direction::rightDown),
+            Direction::leftUp);
+    BOOST_CHECK_EQUAL(Neighbors::oppositeDirection(Direction::down),
+            Direction::up);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // Hex
+
+BOOST_AUTO_TEST_SUITE_END() // NeighborsTest

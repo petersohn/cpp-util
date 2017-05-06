@@ -1,7 +1,9 @@
-#ifndef TOOLS_MATRIX_HEXMATRIX_HPP
-#define TOOLS_MATRIX_HEXMATRIX_HPP
+#ifndef UTIL_MATRIX_HEXMATRIX_HPP
+#define UTIL_MATRIX_HEXMATRIX_HPP
 
+#include "LazyArgumentEnum.hpp"
 #include "Matrix.hpp"
+#include "Neighbors.hpp"
 
 #include <istream>
 #include <ostream>
@@ -34,14 +36,17 @@ void printMatrix(std::ostream& os, const Matrix<T>& matrix) {
     }
 }
 
+LAZY_ARGUMENT_ENUM(Direction, directions,
+        (leftDown)(leftUp)(up)(rightUp)(rightDown)(down));
+
 constexpr std::size_t numNeighbors = 6;
-using Neighbors = std::array<Point, numNeighbors>;
+using Neighbors = NeighborsBase<Direction, numNeighbors>;
 
 constexpr Neighbors oddNeighbors{
-        {-px, -p10, -p01, p10, p11, p01}};
+        {{-px, -p10, -p01, p10, p11, p01}}};
 
 constexpr Neighbors evenNeighbors{
-        {-p10, -p11, -p01, px, p10, p01}};
+        {{-p10, -p11, -p01, px, p10, p01}}};
 
 constexpr const Neighbors& getNeighbors(Point p) {
     return p.x % 2 == 0 ? evenNeighbors : oddNeighbors;
@@ -52,4 +57,4 @@ constexpr const Neighbors& getNeighbors(Point p) {
 } // namespace util
 
 
-#endif // TOOLS_MATRIX_HEXMATRIX_HPP
+#endif // UTIL_MATRIX_HEXMATRIX_HPP
