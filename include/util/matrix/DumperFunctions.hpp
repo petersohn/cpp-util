@@ -37,17 +37,9 @@ void dumpMatrix(std::ostream& file, const Matrix<T>& table,
     for (p.y = 0; p.y < static_cast<int>(table.height()); p.y++) {
         file << indentString;
         for (p.x = 0; p.x < static_cast<int>(table.width()); p.x++) {
-            if (p.x % 10 == 0 || p.y % 10 == 0) {
-                file << "\e[0;31m";
-            } else if (p.x % 5 == 0 || p.y % 5 == 0) {
-                file << "\e[0;33m";
-            }
             file.width(maxlen);
             file << txts[p];
             file.width(0);
-            if (p.x % 5 == 0 || p.y % 5 == 0) {
-                file << "\e[0m";
-            }
         }
         file << "\n";
     }
