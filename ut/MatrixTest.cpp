@@ -190,4 +190,34 @@ BOOST_AUTO_TEST_CASE(BoolMatrix) {
     BOOST_CHECK_EQUAL((matrix[Point{1, 1}]), true);
 }
 
+BOOST_AUTO_TEST_CASE(IsInsideMatrix) {
+    Matrix<int> matrix{2, 2};
+    BOOST_CHECK((isInsideMatrix(matrix, Point{0, 0})));
+    BOOST_CHECK((isInsideMatrix(matrix, Point{0, 1})));
+    BOOST_CHECK((isInsideMatrix(matrix, Point{1, 0})));
+    BOOST_CHECK((isInsideMatrix(matrix, Point{1, 1})));
+
+    BOOST_CHECK((!isInsideMatrix(matrix, Point{-1, 1})));
+    BOOST_CHECK((!isInsideMatrix(matrix, Point{0, -1})));
+    BOOST_CHECK((!isInsideMatrix(matrix, Point{2, 0})));
+    BOOST_CHECK((!isInsideMatrix(matrix, Point{0, 2})));
+    BOOST_CHECK((!isInsideMatrix(matrix, Point{3, 2})));
+    BOOST_CHECK((!isInsideMatrix(matrix, Point{-1, -1})));
+    BOOST_CHECK((!isInsideMatrix(matrix, Point{1, -20})));
+    BOOST_CHECK((!isInsideMatrix(matrix, Point{100, 0})));
+}
+
+BOOST_AUTO_TEST_CASE(MatrixAt) {
+    int inside = 23;
+    int outside = 612;
+    Matrix<int> matrix{2, 3, inside};
+
+    BOOST_CHECK_EQUAL((matrixAt(matrix, Point{0, 0}, outside)), inside);
+    BOOST_CHECK_EQUAL((matrixAt(matrix, Point{1, 1}, outside)), inside);
+    BOOST_CHECK_EQUAL((matrixAt(matrix, Point{1, 2}, outside)), inside);
+
+    BOOST_CHECK_EQUAL((matrixAt(matrix, Point{-1, 2}, outside)), outside);
+    BOOST_CHECK_EQUAL((matrixAt(matrix, Point{1, 8}, outside)), outside);
+}
+
 BOOST_AUTO_TEST_SUITE_END() // MatrixTest
