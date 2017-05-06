@@ -35,6 +35,19 @@ public:
     typedef typename Data::const_iterator const_iterator;
 
     Matrix(): width_(0), height_(0) {}
+
+    Matrix(std::size_t width, std::size_t height,
+            const std::initializer_list<T>& values):
+        width_(width), height_(height),
+        data_(values.begin(), values.end())
+    {}
+
+    template<typename Iterator>
+    Matrix(std::size_t width, std::size_t height,
+            Iterator begin, Iterator end):
+        width_(width), height_(height), data_(begin, end)
+    {}
+
     Matrix(std::size_t width, std::size_t height, const T& defValue = T()):
         width_(width), height_(height), data_(width * height, defValue)
     {}

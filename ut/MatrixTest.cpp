@@ -45,6 +45,23 @@ BOOST_AUTO_TEST_CASE(SetValue) {
     BOOST_CHECK_EQUAL((matrix[Point{1, 1}]), 4);
 }
 
+BOOST_AUTO_TEST_CASE(ConstructFromInitializerList) {
+    Matrix<int> matrix{2, 2, {1, 5, 3, 0}};
+    BOOST_CHECK_EQUAL((matrix[Point{0, 0}]), 1);
+    BOOST_CHECK_EQUAL((matrix[Point{1, 0}]), 5);
+    BOOST_CHECK_EQUAL((matrix[Point{0, 1}]), 3);
+    BOOST_CHECK_EQUAL((matrix[Point{1, 1}]), 0);
+}
+
+BOOST_AUTO_TEST_CASE(ConstructFromContainer) {
+    auto values = {4, 1, 8, -1};
+    Matrix<int> matrix{2, 2, values.begin(), values.end()};
+    BOOST_CHECK_EQUAL((matrix[Point{0, 0}]), 4);
+    BOOST_CHECK_EQUAL((matrix[Point{1, 0}]), 1);
+    BOOST_CHECK_EQUAL((matrix[Point{0, 1}]), 8);
+    BOOST_CHECK_EQUAL((matrix[Point{1, 1}]), -1);
+}
+
 BOOST_AUTO_TEST_CASE(AccessByIndex) {
     Matrix<int> matrix{2, 2};
     for (std::size_t i = 0; i < 4; ++i) {
