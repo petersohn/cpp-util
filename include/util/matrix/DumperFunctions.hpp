@@ -5,6 +5,9 @@
 #include <iostream>
 #include <string>
 
+namespace util {
+namespace matrix {
+
 struct ToString {
     template<typename T>
     std::string operator()(T&& t) const {
@@ -46,5 +49,7 @@ void dumpMatrix(std::ostream& file, const Matrix<T>& table,
     file << "\n";
 }
 
+} // namespace matrix
+} // namespace util
 
 #endif // UTIL_DUMPERFUNCTIONS_HPP

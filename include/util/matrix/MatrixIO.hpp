@@ -1,3 +1,6 @@
+#ifndef UTIL_MATRIX_MATRIXIO_HPP
+#define UTIL_MATRIX_MATRIXIO_HPP
+
 #include "Matrix.hpp"
 #include "DumperFunctions.hpp"
 
@@ -11,6 +14,9 @@
 #include <sstream>
 #include <string>
 
+namespace util {
+namespace matrix {
+
 namespace detail {
 
 template<typename T>
@@ -23,7 +29,7 @@ void readValue(std::istream& s, char& c) {
     s.get(c);
 }
 
-}
+} // namespace detail
 
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix) {
@@ -76,4 +82,7 @@ std::istream& operator>>(std::istream& is, Matrix<T>& matrix) {
     return is;
 }
 
+} // namespace matrix
+} // namespace util
 
+#endif // UTIL_MATRIX_MATRIXIO_HPP
