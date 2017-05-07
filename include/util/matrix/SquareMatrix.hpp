@@ -4,6 +4,8 @@
 #include "Neighbors.hpp"
 #include "Point.hpp"
 
+#include <util/LazyArgumentEnum.hpp>
+
 namespace util {
 namespace matrix {
 namespace square {
