@@ -4,6 +4,7 @@
 #include <boost/functional/hash.hpp>
 
 #include <ostream>
+#include <vector>
 #include <stddef.h>
 
 namespace util {
@@ -88,6 +89,14 @@ int distanceSquare(Point p1, Point p2) {
 inline
 std::ostream& operator<<(std::ostream& os, Point p) {
     os << '(' << p.x << ", " << p.y << ')';
+    return os;
+}
+
+inline
+std::ostream& operator<<(std::ostream& os, const std::vector<Point>& ps) {
+    for (Point p : ps) {
+        os << p;
+    }
     return os;
 }
 
