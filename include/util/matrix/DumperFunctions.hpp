@@ -18,6 +18,10 @@ struct ToString {
     std::string operator()(char c) const {
         return std::string{c};
     }
+
+    const std::string& operator()(const std::string& s) const {
+        return s;
+    }
 };
 
 template<typename T, typename Converter = ToString>
