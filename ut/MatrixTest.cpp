@@ -1,4 +1,5 @@
 #include "matrix/Matrix.hpp"
+#include "matrix/MatrixIO.hpp"
 
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
@@ -235,6 +236,39 @@ BOOST_AUTO_TEST_CASE(MatrixAt) {
 
     BOOST_CHECK_EQUAL((matrixAt(matrix, Point{-1, 2}, outside)), outside);
     BOOST_CHECK_EQUAL((matrixAt(matrix, Point{1, 8}, outside)), outside);
+}
+
+BOOST_AUTO_TEST_CASE(ConstructFromConvertibleMatrixType) {
+    Matrix<int> matrix{3, 2, {
+        1, 2, 3,
+        4, 5, 6
+    }};
+
+    Matrix<float> expected{3, 2, {
+        1.0, 2.0, 3.0,
+        4.0, 5.0, 6.0
+    }};
+
+    Matrix<float> converted = matrix;
+
+    BOOST_CHECK_EQUAL(converted, expected);
+}
+
+BOOST_AUTO_TEST_CASE(CopyFromConvertibleMatrixType) {
+    Matrix<int> matrix{3, 2, {
+        1, 2, 3,
+        4, 5, 6
+    }};
+
+    Matrix<float> expected{3, 2, {
+        1.0, 2.0, 3.0,
+        4.0, 5.0, 6.0
+    }};
+
+    Matrix<float> converted;
+    converted = matrix;
+
+    BOOST_CHECK_EQUAL(converted, expected);
 }
 
 BOOST_AUTO_TEST_SUITE_END() // MatrixTest

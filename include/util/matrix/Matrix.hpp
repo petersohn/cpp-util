@@ -9,6 +9,7 @@
 
 #include <boost/functional/hash.hpp>
 
+#include <algorithm>
 #include <assert.h>
 #include <type_traits>
 #include <vector>
@@ -66,6 +67,25 @@ public:
         other.width_ = 0;
         other.height_ = 0;
         other.data_.clear();
+        return *this;
+    }
+
+    template<typename U>
+    Matrix(const Matrix<U>& other) :
+            width_(other.width()), height_(other.height()),
+            data_(other.begin(), other.end()) {
+        static_assert(std::is_convertible<U, T>::value,
+                "Cannot convert between matrices of incompatible types.");
+    }
+
+    template<typename U>
+    Matrix& operator=(const Matrix<U>& other) {
+        static_assert(std::is_convertible<U, T>::value,
+                "Cannot convert between matrices of incompatible types.");
+        width_ = other.width();
+        height_ = other.height();
+        data_.clear();
+        std::copy(other.begin(), other.end(), std::back_inserter(data_));
         return *this;
     }
 
