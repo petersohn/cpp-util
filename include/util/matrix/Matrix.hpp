@@ -132,6 +132,11 @@ public:
                 && data_ == other.data_;
     }
 
+    friend bool operator<(const Matrix<T>& lhs, const Matrix<T>& rhs) {
+        return std::lexicographical_compare(lhs.data_.begin(), lhs.data_.end(),
+                                            rhs.data_.begin(), rhs.data_.end());
+    }
+
     iterator begin() { return data_.begin(); }
     iterator end() { return data_.end(); }
     const_iterator begin() const { return data_.begin(); }
