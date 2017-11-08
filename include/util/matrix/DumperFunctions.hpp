@@ -32,11 +32,18 @@ void dumpMatrix(std::ostream& file, const Matrix<T>& table,
     if (!title.empty()) {
         file << indentString << title << std::endl;
     }
-    Matrix<std::string> txts(table.width(), table.height());
+    Matrix<std::string> txts(table.width() + 1, table.height() + 1);
     size_t maxlen = 0;
+    for (std::size_t x = 0; x < table.width(); ++x) {
+        txts[Point{static_cast<int>(x) + 1, 0}] = std::to_string(x % 10);
+    }
+    for (std::size_t y = 0; y < table.height(); ++y) {
+        txts[Point{0, static_cast<int>(y) + 1}] = std::to_string(y % 10);
+    }
     for (Point  p: matrixRange(table)) {
-        txts[p] = converter(table[p]);
-        maxlen = std::max(maxlen, txts[p].size());
+        Point t = p + p11;
+        txts[t] = converter(table[p]);
+        maxlen = std::max(maxlen, txts[t].size());
     }
     // leave a space between characters
     ++maxlen;
