@@ -48,12 +48,15 @@ void dumpMatrix(std::ostream& file, const Matrix<T>& table,
     // leave a space between characters
     ++maxlen;
     Point p;
-    for (p.y = 0; p.y < static_cast<int>(table.height()); p.y++) {
+    for (p.y = 0; p.y < static_cast<int>(txts.height()); p.y++) {
         file << indentString;
-        for (p.x = 0; p.x < static_cast<int>(table.width()); p.x++) {
+        for (p.x = 0; p.x < static_cast<int>(txts.width()); p.x++) {
+            bool hl = p.x % 10 == 1 || p.y % 10 == 1;
+            if (hl) file << "\e[0;31m";
             file.width(maxlen);
             file << txts[p];
             file.width(0);
+            if (hl) file << "\e[0m";
         }
         file << "\n";
     }
