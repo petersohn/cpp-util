@@ -2,6 +2,7 @@
 #include "matrix/SquareMatrix.hpp"
 
 #include <boost/mpl/list.hpp>
+#include <boost/optional/optional_io.hpp>
 #include <boost/test/unit_test.hpp>
 
 using namespace util::matrix;
@@ -47,6 +48,17 @@ BOOST_AUTO_TEST_CASE(Iterate) {
     BOOST_CHECK(iterator != range.end());
     ++iterator;
     BOOST_CHECK(iterator == range.end());
+}
+
+BOOST_AUTO_TEST_CASE(GetDirection) {
+    BOOST_CHECK_EQUAL(neighbors.getDirection(p10), Direction::right);
+    BOOST_CHECK_EQUAL(neighbors.getDirection(p01), Direction::down);
+    BOOST_CHECK_EQUAL(neighbors.getDirection(-p10), Direction::left);
+    BOOST_CHECK_EQUAL(neighbors.getDirection(-p01), Direction::up);
+    BOOST_CHECK_EQUAL(neighbors.getDirection(p11), boost::none);
+    BOOST_CHECK_EQUAL(neighbors.getDirection(-p11), boost::none);
+    BOOST_CHECK_EQUAL(neighbors.getDirection(px), boost::none);
+    BOOST_CHECK_EQUAL(neighbors.getDirection(-px), boost::none);
 }
 
 BOOST_AUTO_TEST_SUITE_END() // Square

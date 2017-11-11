@@ -4,7 +4,9 @@
 #include "Point.hpp"
 
 #include <boost/iterator/iterator_facade.hpp>
+#include <boost/optional.hpp>
 
+#include <algorithm>
 #include <array>
 
 namespace util {
@@ -68,8 +70,18 @@ struct NeighborsBase {
 
     std::array<Point, numNeighbors> data;
 
-    Point operator[](Direction direction) const {
+    constexpr Point operator[](Direction direction) const {
         return data[static_cast<std::size_t>(direction)];
+    }
+
+    boost::optional<Direction> getDirection(Point d) const {
+        auto iterator = std::find(data.begin(), data.end(), d);
+        if (iterator != data.end()) {
+            return static_cast<Direction>(
+                    std::distance(data.begin(), iterator));
+        } else {
+            return boost::none;
+        }
     }
 
     static Direction oppositeDirection(Direction direction) {
