@@ -116,6 +116,19 @@ struct hash<util::matrix::Point> {
     }
 };
 
+template<>
+struct hash<std::pair<util::matrix::Point, util::matrix::Point>> {
+    size_t operator()(
+            const std::pair<util::matrix::Point, util::matrix::Point>& p) const
+    {
+        size_t seed = 0;
+        hash<util::matrix::Point> h;
+        boost::hash_combine(seed, h(p.first));
+        boost::hash_combine(seed, h(p.first));
+        return seed;
+    }
+};
+
 } // namespace std
 
 #endif // UTIL_MATRIX_POINT_HPP
