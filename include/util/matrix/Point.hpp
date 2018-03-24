@@ -81,9 +81,10 @@ inline int distance(Point p1, Point p2) {
 }
 
 inline
-int distanceSquare(Point p1, Point p2) {
+long distanceSquare(Point p1, Point p2) {
     Point difference = p1 - p2;
-    return difference.x * difference.x + difference.y * difference.y;
+    return static_cast<long>(difference.x) * difference.x +
+            static_cast<long>(difference.y) * difference.y;
 }
 
 inline
