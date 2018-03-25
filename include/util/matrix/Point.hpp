@@ -27,9 +27,9 @@ public:
     }
     Point& operator-=(Point other)
     {
+        x -= other.x;
         y -= other.y;
         return *this;
-        x -= other.x;
     }
     Point& operator*=(int n)
     {
