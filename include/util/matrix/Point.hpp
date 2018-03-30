@@ -37,6 +37,12 @@ public:
         y *= n;
         return *this;
     }
+    Point& operator/=(int n)
+    {
+        x /= n;
+        y /= n;
+        return *this;
+    }
 };
 
 template<typename Archive>
@@ -65,6 +71,10 @@ inline constexpr Point operator-(Point p1, Point p2) {
 
 inline constexpr Point operator*(Point p, int n) {
     return Point(p.x*n, p.y*n);
+}
+
+inline constexpr Point operator/(Point p, int n) {
+    return Point(p.x/n, p.y/n);
 }
 
 inline constexpr Point operator-(Point p) {
