@@ -61,6 +61,28 @@ BOOST_AUTO_TEST_CASE(GetDirection) {
     BOOST_CHECK_EQUAL(neighbors.getDirection(-px), boost::none);
 }
 
+BOOST_AUTO_TEST_CASE(PreviousDirection) {
+    BOOST_CHECK_EQUAL(neighbors.previousDirection(Direction::left),
+            Direction::down);
+    BOOST_CHECK_EQUAL(neighbors.previousDirection(Direction::up),
+            Direction::left);
+    BOOST_CHECK_EQUAL(neighbors.previousDirection(Direction::right),
+            Direction::up);
+    BOOST_CHECK_EQUAL(neighbors.previousDirection(Direction::down),
+            Direction::right);
+}
+
+BOOST_AUTO_TEST_CASE(NextDirection) {
+    BOOST_CHECK_EQUAL(neighbors.nextDirection(Direction::left),
+            Direction::up);
+    BOOST_CHECK_EQUAL(neighbors.nextDirection(Direction::up),
+            Direction::right);
+    BOOST_CHECK_EQUAL(neighbors.nextDirection(Direction::right),
+            Direction::down);
+    BOOST_CHECK_EQUAL(neighbors.nextDirection(Direction::down),
+            Direction::left);
+}
+
 BOOST_AUTO_TEST_SUITE_END() // Square
 
 BOOST_AUTO_TEST_SUITE(Hex)
@@ -125,6 +147,8 @@ BOOST_AUTO_TEST_CASE(Iterate) {
     ++iterator;
     BOOST_CHECK(iterator == range.end());
 }
+
+// TODO: previousDirection and nextDirection
 
 BOOST_AUTO_TEST_SUITE_END() // Hex
 

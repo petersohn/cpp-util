@@ -89,6 +89,18 @@ struct NeighborsBase {
                 (static_cast<std::size_t>(direction) + numNeighbors / 2)
                 % numNeighbors);
     }
+
+    static Direction previousDirection(Direction direction) {
+        return static_cast<Direction>(
+                (static_cast<std::size_t>(direction) + numNeighbors - 1)
+                % numNeighbors);
+    }
+
+    static Direction nextDirection(Direction direction) {
+        return static_cast<Direction>(
+                (static_cast<std::size_t>(direction) + 1)
+                % numNeighbors);
+    }
 };
 
 } // namespace matrix
